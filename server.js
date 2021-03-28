@@ -69,6 +69,16 @@ app.use(cors());
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
+// Serve Documentation
+app.get("/", (req, res) => {
+  res
+    .set(
+      "Content-Security-Policy",
+      "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
+    )
+    .sendFile(path.join(__dirname, "documentation/index.html"));
+});
+
 // Mount routers
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
